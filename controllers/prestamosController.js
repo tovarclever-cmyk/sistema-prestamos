@@ -90,9 +90,14 @@ const prestamosController = {
             const montoTotal = montoPrestado + montoInteres;
 
             let fechaFin = new Date(fecha_inicio);
-            if (frecuencia === 'diario') fechaFin.setDate(fechaFin.getDate() + numCuotas);
-            else if (frecuencia === 'semanal') fechaFin.setDate(fechaFin.getDate() + (numCuotas * 7));
-            else if (frecuencia === 'mensual') fechaFin.setMonth(fechaFin.getMonth() + numCuotas);
+            if (frecuencia === 'diario') {
+                // Solo cuenta días de lunes a sábado (sin domingos)
+                fechaFin = finance.calcularFechaFinDiario(fecha_inicio, numCuotas);
+            } else if (frecuencia === 'semanal') {
+                fechaFin.setDate(fechaFin.getDate() + (numCuotas * 7));
+            } else if (frecuencia === 'mensual') {
+                fechaFin.setMonth(fechaFin.getMonth() + numCuotas);
+            }
 
             const fechaFinStr = fechaFin.toISOString().split('T')[0];
 
