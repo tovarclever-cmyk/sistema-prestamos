@@ -95,6 +95,8 @@ const prestamosController = {
                 fechaFin = finance.calcularFechaFinDiario(fecha_inicio, numCuotas);
             } else if (frecuencia === 'semanal') {
                 fechaFin.setDate(fechaFin.getDate() + (numCuotas * 7));
+            } else if (frecuencia === 'quincenal') {
+                fechaFin.setDate(fechaFin.getDate() + (numCuotas * 15));
             } else if (frecuencia === 'mensual') {
                 fechaFin.setMonth(fechaFin.getMonth() + numCuotas);
             }
@@ -132,8 +134,9 @@ const prestamosController = {
             res.redirect('/prestamos');
 
         } catch (error) {
+            console.error('--- ERROR AL CREAR PRÉSTAMO ---');
             console.error(error);
-            req.flash('mensajeError', 'Error al crear el préstamo');
+            req.flash('mensajeError', 'Error al crear el préstamo: ' + error.message);
             res.redirect('/prestamos/crear');
         }
     },

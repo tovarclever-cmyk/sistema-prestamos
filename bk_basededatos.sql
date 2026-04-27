@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `prestamos` (
   `tasa_interes` decimal(5,2) NOT NULL,
   `monto_total` decimal(10,2) NOT NULL,
   `cuotas` int NOT NULL,
-  `frecuencia` enum('diario','semanal','mensual') NOT NULL,
+  `frecuencia` enum('diario','semanal','quincenal','mensual') NOT NULL,
   `estado` enum('pendiente','pagado','vencido') DEFAULT 'pendiente',
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
