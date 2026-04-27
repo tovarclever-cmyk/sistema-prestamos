@@ -87,6 +87,22 @@ app.use('/backup', protegerRuta, require('./routes/backup'));
 app.use('/bitacora', protegerRuta, require('./routes/bitacora'));
 app.use('/simulador', protegerRuta, require('./routes/simulador'));
 
+// --- RUTA TEMPORAL 2: Arreglar columna vieja ---
+app.get('/fix-db2', async (req, res) => {
+    try {
+        // 1. Copiar los datos de la columna vieja a la nueva (para no perder información)
+        await db.query(`UPDATE prestamos SET fecha_fin = fecha_vencimiento WHERE fecha_fin IS NULL`);
+        
+        // 2. Hacer que la columna vieja ya no sea obligatoria para evitar el error
+        await db.query(`ALTER TABLE prestamos MODIFY COLUMN fecha_vencimiento DATE DEFAULT NULL`);
+        
+        res.send('<h1>✅ ¡Error solucionado!</h1><p>Se migró la información y se quitó la restricción.</p><a href="/prestamos/crear">Volver a Préstamos</a>');
+    } catch (error) {
+        res.send(`<h1>❌ Error</h1><pre>${error.message}</pre>`);
+    }
+});
+// -----------------------------------------------
+
 // MANEJADOR DE ERROR 404
 app.use((req, res, next) => {
     res.status(404).render('404');
