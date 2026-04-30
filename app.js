@@ -10,17 +10,23 @@ const PrestamoModel = require('./models/PrestamoModel');
 
 // 1. Configuración de variables de entorno
 dotenv.config();
+console.log('--- CONFIGURACIÓN INICIADA ---');
+console.log('Entorno:', process.env.NODE_ENV || 'development');
+console.log('Puerto configurado:', process.env.PORT || 3000);
 
 // 2. Importar conexión a Base de Datos
+console.log('Conectando a la base de datos...');
 const db = require('./config/db');
 
 // 3. Configuración de Sesiones
+console.log('Configurando sesiones...');
 app.use(session({
     secret: process.env.SESSION_SECRET || 'secreto',
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false } 
 }));
+console.log('Sesiones listas.');
 
 app.use(flash());
 
