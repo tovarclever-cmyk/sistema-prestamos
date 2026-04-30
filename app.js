@@ -122,7 +122,7 @@ app.use((err, req, res, next) => {
 
 // 9. Iniciar Servidor
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n--- SERVIDOR INICIADO ---`);
-    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`Servidor corriendo en el puerto: ${PORT}`);
 });
