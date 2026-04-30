@@ -87,6 +87,11 @@ app.use('/backup', protegerRuta, require('./routes/backup'));
 app.use('/bitacora', protegerRuta, require('./routes/bitacora'));
 app.use('/simulador', protegerRuta, require('./routes/simulador'));
 
+// RUTA DE SALUD (Para Railway)
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
+
 // --- RUTA TEMPORAL 2: Arreglar columna vieja ---
 app.get('/fix-db2', async (req, res) => {
     try {
@@ -106,6 +111,13 @@ app.get('/fix-db2', async (req, res) => {
 // MANEJADOR DE ERROR 404
 app.use((req, res, next) => {
     res.status(404).render('404');
+});
+
+// MANEJADOR DE ERRORES GLOBAL (Evita que la app se caiga)
+app.use((err, req, res, next) => {
+    console.error('--- ERROR NO CONTROLADO ---');
+    console.error(err.stack);
+    res.status(500).send('<h1>Error 500: Algo salió mal en el servidor</h1><p>Por favor contacta al administrador.</p>');
 });
 
 // 9. Iniciar Servidor
